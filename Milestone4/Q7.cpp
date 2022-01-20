@@ -1,47 +1,51 @@
-vector<int>dx = {-1,1,0,0,1,1,-1,-1};
-vector<int>dy = {0,0,-1,1,1,-1,1,-1};
-    bool isValid(int x, int y, int n, int m){
-        return (x >=0 and x < n and y >= 0 and y < m);
-    }
+//Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+public:
     
-    int findMaxArea(vector<vector<int>>& grid)
+int helper(vector<int>&v,int start,int end,vector<vector<int>>&dp)
     {
-        int ans = 0;
-        int n = grid.size();
-        int m = grid[0].size();
-        
-        queue<pair<int, int>>q;
-        for(int i = 0; i < n; i++)
+        if(start>end)
         {
-            for(int j = 0; j < m; j++)
-            {
-                if(grid[i][j] == 1)
-                {
-                    grid[i][j] = 0;
-                    int cnt = 1;
-                    q.push({i,j});
-                    
-                    while(!q.empty())
-                    {
-                        int x = q.front().first;
-                        int y = q.front().second;
-                        q.pop();
-                        
-                        for(int k = 0; k < 8; k++)
-                        {
-                            int n_x = x + dx[k];
-                            int n_y = y + dy[k];
-                            if(isValid(n_x, n_y, n, m) and grid[n_x][n_y] == 1)
-                            {
-                                grid[n_x][n_y] = 0;
-                                cnt++;
-                                q.push({n_x, n_y});
-                            }
-                        }
-                    }
-                    ans = max(ans, cnt);
-                }
-            }
+            return dp[start][end]=0;
         }
-        return ans;
+        if(start==end)
+        {
+            return dp[start][end]=v[start];
+        }
+        if(dp[start][end]!=-1)
+        {
+            return dp[start][end];
+        }
+        int first=v[start]+min(helper(v,start+1,end-1,dp),helper(v,start+2,end,dp));
+        int second=v[end]+min(helper(v,start+1,end-1,dp),helper(v,start,end-2,dp));
+        return dp[start][end]=max(first,second);
     }
+    int maxCoins(vector<int>&A,int n)
+    {
+        vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
+    return helper(A,0,n-1,dp);
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N;
+        cin >> N;
+        vector<int>A(N);
+        for (int i = 0; i < N; i++) {
+            cin >> A[i];
+        }
+        Solution ob;
+        cout << ob.maxCoins(A, N) << "\n";
+    }
+    return 0;
+}
+  // } Driver Code Ends

@@ -1,17 +1,26 @@
-vector<string> generate(int N)
-{
-    vector<string>ans;
-	queue<string>q;
-	q.push("1");                    
-	
-	while(N--)                     
-	{
-		string s1=q.front(); 
-		q.pop();
-		ans.push_back(s1);
-		string s2=s1;
-		q.push(s1.append("0")); 
-		q.push(s2.append("1"));
-	}
-	return ans;
-}
+string amendSentence (string s)
+   {
+       string ans="";
+       
+       int len=s.length();
+       int i=0;
+       
+       while(i<len)
+       {
+           if(i==0 || isupper(s[i]))
+           {
+               ans+=tolower(s[i]);
+               i++;
+               while(i<len && islower(s[i]))
+               {
+                   ans+=s[i];
+                   i++;
+               }
+               ans+=" ";
+           }
+       }
+       
+       ans.pop_back();
+       return ans;
+   }
+

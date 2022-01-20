@@ -1,19 +1,33 @@
-void connect(struct Node* root)
-{
-queue<Node*> q;
-q.push(root);
-q.push(NULL);
-while (!q.empty()) {
-Node *p = q.front();
-q.pop();
-if (p != NULL) {
-p->nextRight = q.front();
-if (p->left)
-q.push(p->left);
-if (p->right)
-q.push(p->right);
-}
-else if (!q.empty())
-q.push(NULL);
-}
-}
+  bool isNumericChar(char x) {
+        return (x >= '0' && x <= '9')? true: false;
+    }
+    
+    int atoi(string str)
+    {
+    	int n=str.size();
+        if (str == "")
+           return 0;
+      
+        int res = 0;  
+        int sign = 1;  
+        int i = 0; 
+      
+     
+        if (str[0] == '-')
+        {
+            sign = -1;
+            i++;  
+        }
+      
+       
+        for (; i<n; ++i)
+        {
+            if (isNumericChar(str[i]) == false)
+                return -1; 
+            res = res*10 + str[i] - '0';
+        }
+      
+        // Return result with sign
+        
+        return sign*res;
+    }
